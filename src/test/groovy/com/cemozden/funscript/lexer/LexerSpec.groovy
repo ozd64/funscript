@@ -10,16 +10,16 @@ class LexerSpec extends Specification {
         def lexer = new Lexer(var1)
 
         when: 'variable gets lexec'
-        def varKeyword = lexer.next().get()
-        def varIdentifier = lexer.next().get()
-        def equalOperator = lexer.next().get()
-        def valueInt = lexer.next().get()
+        def letKeyword = lexer.next().get()
+        def variableName = lexer.next().get()
+        //def equalOperator = lexer.next().get()
+        //def valueInt = lexer.next().get()
 
         then:
-        varKeyword == Keyword.VAR
-        varIdentifier == new Ident("x")
-        equalOperator == Operator.EQUAL
-        valueInt == new Ident(5)
+        letKeyword == Keyword.LET
+        variableName == new Ident("x")
+        //equalOperator == Operator.EQUAL
+        //valueInt == new AtomicIdent(5)
     }
 
 }

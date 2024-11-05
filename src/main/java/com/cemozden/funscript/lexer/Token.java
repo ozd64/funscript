@@ -1,14 +1,18 @@
 package com.cemozden.funscript.lexer;
 
-public sealed interface Token permits Ident, Keyword, Operator {
+public sealed interface Token permits AtomicIdent, Keyword, Operator, Ident {
 }
 
-record Ident<T>(T value) implements Token {
+record Ident(String s) implements Token {
+
+}
+
+record AtomicIdent<T>(T value) implements Token {
 
 }
 
 enum Keyword implements Token {
-    VAR
+    LET
 }
 
 enum Operator implements Token {
