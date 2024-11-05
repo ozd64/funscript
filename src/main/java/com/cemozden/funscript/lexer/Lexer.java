@@ -53,17 +53,21 @@ public class Lexer {
     }
 
     private Token mapToKeyword(Token token) {
-        if (token instanceof Ident ident) {
+        if (token instanceof Ident ident)
             return Optional
                     .<Token>ofNullable(KEYWORDS.get(ident.s()))
                     .orElse(token);
-        } else {
+         else
             return token;
-        }
+
     }
 
     private static final Map<String, Keyword> KEYWORDS = Map.of(
             "let", Keyword.LET
+    );
+
+    private static final Map<String, Operator> OPERATORS = Map.of(
+            "=", Operator.EQUAL
     );
 
 }
