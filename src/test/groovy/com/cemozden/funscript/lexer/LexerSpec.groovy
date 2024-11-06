@@ -108,4 +108,26 @@ class LexerSpec extends Specification {
         semicolonOperator == Operator.SEMICOLON
     }
 
+    def "should parse mathematical statement successfully"() {
+        given: 'Math statement definition and lexer'
+        def var1 = "x = x + 5;"
+        def lexer = new Lexer(var1)
+
+        when: 'variable gets lexed'
+        def variableName = lexer.nextToken().get()
+        def equalOperator = lexer.nextToken().get()
+        def variableName2 = lexer.nextToken().get()
+        def plusOperator = lexer.nextToken().get()
+        def integerValue = lexer.nextToken().get()
+        def semicolonOperator = lexer.nextToken().get()
+
+        then:
+        variableName == new Ident("x")
+        equalOperator == Operator.EQUAL
+        variableName2 == new Ident("x")
+        plusOperator == Operator.PLUS
+        integerValue == new AtomicIdent(5)
+        semicolonOperator == Operator.SEMICOLON
+    }
+
 }

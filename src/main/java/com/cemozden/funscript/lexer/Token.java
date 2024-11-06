@@ -18,5 +18,5 @@ enum Keyword implements Token {
 
 enum Operator implements Token {
     EQUAL,
-    COLON, SEMICOLON
+    COLON, PLUS, SEMICOLON
 }

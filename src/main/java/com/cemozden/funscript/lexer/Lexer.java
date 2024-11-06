@@ -128,7 +128,8 @@ public class Lexer {
     private static final Map<String, Operator> OPERATORS = Map.of(
             "=", Operator.EQUAL,
             ";", Operator.SEMICOLON,
-            ":", Operator.COLON
+            ":", Operator.COLON,
+            "+", Operator.PLUS
     );
 
 }
