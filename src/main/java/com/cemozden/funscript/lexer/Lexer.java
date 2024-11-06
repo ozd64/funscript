@@ -101,7 +101,12 @@ public class Lexer {
     private Optional<Token> getOperatorToken() {
         final int startOffset = offset;
 
-        while (offset < codeChars.length && codeChars[offset] != ' ' && codeChars[offset] != '\n')
+        while (
+                offset < codeChars.length &&
+                        SINGLE_CHAR_OPERATORS.contains(codeChars[offset]) &&
+                        codeChars[offset] != ' ' &&
+                        codeChars[offset] != '\n'
+        )
             offset++;
 
         if (offset <= codeChars.length) {

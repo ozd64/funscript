@@ -6,7 +6,7 @@ class LexerSpec extends Specification {
 
     def "should lex an integer variable definition successfully"() {
         given: 'Variable definition and lexer'
-        def var1 = "let x = 5;"
+        def var1 = "let x=5;"
         def lexer = new Lexer(var1)
 
         when: 'variable gets lexed'
