@@ -8,7 +8,6 @@ record Ident(String s) implements Token {
 }
 
 record AtomicIdent<T>(T value) implements Token {
-
 }
 
 enum Keyword implements Token {
@@ -16,5 +15,6 @@ enum Keyword implements Token {
 }
 
 enum Operator implements Token {
-    EQUAL
+    EQUAL,
+    COLON, SEMICOLON
 }
