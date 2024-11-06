@@ -12,11 +12,18 @@ record AtomicIdent<T>(T value) implements Token {
 
 enum Keyword implements Token {
     LET,
-    TRUE,
-    BETWEEN, BY, TO, FALSE
+    BETWEEN,
+    BY,
+    TO,
 }
 
 enum Operator implements Token {
     EQUAL,
-    COLON, PLUS, OPEN_CURLY_BRACKET, CLOSED_CURLY_BRACKET, OPEN_PARANTHESES, CLOSED_PARANTHESES, SEMICOLON
+    COLON,
+    PLUS,
+    OPEN_CURLY_BRACKET,
+    CLOSED_CURLY_BRACKET,
+    OPEN_PARENTHESES,
+    CLOSED_PARENTHESES,
+    SEMICOLON
 }

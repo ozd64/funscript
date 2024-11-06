@@ -156,11 +156,11 @@ class LexerSpec extends Specification {
         betweenKeyword == Keyword.BETWEEN
         variableIdent == new Ident("i")
         byKeyword == Keyword.BY
-        openParentheses == Operator.OPEN_PARANTHESES
+        openParentheses == Operator.OPEN_PARENTHESES
         integerIdent == new AtomicIdent(1)
         toKeyword == Keyword.TO
         integerIdent2 == new AtomicIdent(10)
-        closedParentheses == Operator.CLOSED_PARANTHESES
+        closedParentheses == Operator.CLOSED_PARENTHESES
         openCurlyBracket == Operator.OPEN_CURLY_BRACKET
         printIdent == new Ident("print")
         variableReference == new Ident("i")

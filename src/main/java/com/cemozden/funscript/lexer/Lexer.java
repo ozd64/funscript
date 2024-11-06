@@ -138,8 +138,8 @@ public class Lexer {
             "+", Operator.PLUS,
             "{", Operator.OPEN_CURLY_BRACKET,
             "}", Operator.CLOSED_CURLY_BRACKET,
-            "(", Operator.OPEN_PARANTHESES,
-            ")", Operator.CLOSED_PARANTHESES
+            "(", Operator.OPEN_PARENTHESES,
+            ")", Operator.CLOSED_PARENTHESES
     );
 
 }
