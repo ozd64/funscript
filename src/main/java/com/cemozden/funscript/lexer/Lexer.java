@@ -16,6 +16,9 @@ public class Lexer {
            offset++;
         }
 
+        if (offset >= codeChars.length)
+            return Optional.empty();
+
         final char ch = codeChars[offset];
 
         if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
@@ -120,16 +123,23 @@ public class Lexer {
     }
 
     private static final Map<String, Keyword> KEYWORDS = Map.of(
-            "let", Keyword.LET
+            "let", Keyword.LET,
+            "between", Keyword.BETWEEN,
+            "by", Keyword.BY,
+            "to", Keyword.TO
     );
 
-    private static final Set<Character> SINGLE_CHAR_OPERATORS = Set.of('+', '-', '*', '/', ';', '=', ':');
+    private static final Set<Character> SINGLE_CHAR_OPERATORS = Set.of('+', '-', '*', '/', ';', '=', ':', '{', '}', '(', ')');
 
     private static final Map<String, Operator> OPERATORS = Map.of(
             "=", Operator.EQUAL,
             ";", Operator.SEMICOLON,
             ":", Operator.COLON,
-            "+", Operator.PLUS
+            "+", Operator.PLUS,
+            "{", Operator.OPEN_CURLY_BRACKET,
+            "}", Operator.CLOSED_CURLY_BRACKET,
+            "(", Operator.OPEN_PARANTHESES,
+            ")", Operator.CLOSED_PARANTHESES
     );
 
 }

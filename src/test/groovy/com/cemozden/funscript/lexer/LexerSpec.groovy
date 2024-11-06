@@ -130,4 +130,42 @@ class LexerSpec extends Specification {
         semicolonOperator == Operator.SEMICOLON
     }
 
+    def "should parse between loop structure successfully"() {
+        given: 'between loop and lexer'
+        def loopCode = "between i by (1 to 10) {\n" +
+                "    print i;\n" +
+                "}"
+        def lexer = new Lexer(loopCode)
+
+        when:'between loop gets lexed'
+        def betweenKeyword = lexer.nextToken().get()
+        def variableIdent = lexer.nextToken().get()
+        def byKeyword = lexer.nextToken().get()
+        def openParentheses = lexer.nextToken().get()
+        def integerIdent = lexer.nextToken().get()
+        def toKeyword = lexer.nextToken().get()
+        def integerIdent2 = lexer.nextToken().get()
+        def closedParentheses = lexer.nextToken().get()
+        def openCurlyBracket = lexer.nextToken().get()
+        def printIdent = lexer.nextToken().get()
+        def variableReference = lexer.nextToken().get()
+        def semicolonOperator = lexer.nextToken().get()
+        def closedBracket = lexer.nextToken().get()
+
+        then:
+        betweenKeyword == Keyword.BETWEEN
+        variableIdent == new Ident("i")
+        byKeyword == Keyword.BY
+        openParentheses == Operator.OPEN_PARANTHESES
+        integerIdent == new AtomicIdent(1)
+        toKeyword == Keyword.TO
+        integerIdent2 == new AtomicIdent(10)
+        closedParentheses == Operator.CLOSED_PARANTHESES
+        openCurlyBracket == Operator.OPEN_CURLY_BRACKET
+        printIdent == new Ident("print")
+        variableReference == new Ident("i")
+        semicolonOperator == Operator.SEMICOLON
+        closedBracket == Operator.CLOSED_CURLY_BRACKET
+    }
+
 }

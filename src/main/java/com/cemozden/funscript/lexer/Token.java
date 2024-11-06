@@ -13,10 +13,10 @@ record AtomicIdent<T>(T value) implements Token {
 enum Keyword implements Token {
     LET,
     TRUE,
-    FALSE
+    BETWEEN, BY, TO, FALSE
 }
 
 enum Operator implements Token {
     EQUAL,
-    COLON, PLUS, SEMICOLON
+    COLON, PLUS, OPEN_CURLY_BRACKET, CLOSED_CURLY_BRACKET, OPEN_PARANTHESES, CLOSED_PARANTHESES, SEMICOLON
 }
