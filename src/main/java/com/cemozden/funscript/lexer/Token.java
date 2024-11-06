@@ -11,7 +11,9 @@ record AtomicIdent<T>(T value) implements Token {
 }
 
 enum Keyword implements Token {
-    LET
+    LET,
+    TRUE,
+    FALSE
 }
 
 enum Operator implements Token {

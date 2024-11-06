@@ -11,7 +11,7 @@ public class Lexer {
         this.codeChars = code.toCharArray();
     }
 
-    public Optional<Token> next() {
+    public Optional<Token> nextToken() {
         while (offset < codeChars.length && (codeChars[offset] == ' ' || codeChars[offset] == '\n')){
            offset++;
         }
@@ -19,10 +19,7 @@ public class Lexer {
         final char ch = codeChars[offset];
 
         if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-           final Optional<Token> maybeIdentToken = getIdentToken();
-
-           return maybeIdentToken
-                   .map(this::mapToKeyword);
+            return getIdentToken();
         } else if (ch == '"') {
            return getStringLiteral();
         } else if (ch >= '0' && ch <= '9'){
@@ -46,7 +43,14 @@ public class Lexer {
             final char[] identifierChArray = Arrays.copyOfRange(codeChars, startOffset, offset);
             final String identifier = new String(identifierChArray);
 
-            return Optional.of(new Ident(identifier));
+            final Optional<Token> maybeKeyword = Optional.ofNullable(KEYWORDS.get(identifier));
+
+            if (maybeKeyword.isPresent())
+                return maybeKeyword;
+            else if (identifier.equals("true") || identifier.equals("false"))
+                return Optional.of(new AtomicIdent<>(Boolean.valueOf(identifier)));
+            else
+                return Optional.of(new Ident(identifier));
         } else
             return Optional.empty();
         
@@ -110,31 +114,11 @@ public class Lexer {
         }
     }
 
-    private Token mapToKeyword(Token token) {
-        if (token instanceof Ident ident)
-            return Optional
-                    .<Token>ofNullable(KEYWORDS.get(ident.s()))
-                    .orElse(token);
-         else
-            return token;
-
-    }
-
     private static final Map<String, Keyword> KEYWORDS = Map.of(
             "let", Keyword.LET
     );
 
-    private static final Set<Character> SINGLE_CHAR_OPERATORS = new HashSet<>();
-
-    static {
-        SINGLE_CHAR_OPERATORS.add('+');
-        SINGLE_CHAR_OPERATORS.add('-');
-        SINGLE_CHAR_OPERATORS.add('*');
-        SINGLE_CHAR_OPERATORS.add('/');
-        SINGLE_CHAR_OPERATORS.add(';');
-        SINGLE_CHAR_OPERATORS.add('=');
-        SINGLE_CHAR_OPERATORS.add(':');
-    }
+    private static final Set<Character> SINGLE_CHAR_OPERATORS = Set.of('+', '-', '*', '/', ';', '=', ':');
 
     private static final Map<String, Operator> OPERATORS = Map.of(
             "=", Operator.EQUAL,
