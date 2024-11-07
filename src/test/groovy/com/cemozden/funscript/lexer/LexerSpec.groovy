@@ -1,5 +1,6 @@
 package com.cemozden.funscript.lexer
 
+import com.cemozden.funscript.ast.SyntaxErrorException
 import spock.lang.Specification
 
 class LexerSpec extends Specification {
@@ -166,6 +167,96 @@ class LexerSpec extends Specification {
         variableReference == new Ident("i")
         semicolonOperator == Operator.SEMICOLON
         closedBracket == Operator.CLOSED_CURLY_BRACKET
+    }
+
+    def "should expect type correctly if the asked type is present"() {
+        given: 'a code'
+        def loopCode = "i by (1 to 10) {\n" +
+                "    print i;\n" +
+                "}"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def identifier = lexer.expectToken(Ident,
+                token -> "Expected identifier got ${token}")
+
+        then: 'tokens should be correctly expected'
+        identifier == new Ident("i")
+    }
+
+    def "should throw SyntaxErrorException if the expected token is not received"() {
+        given: 'a code'
+        def loopCode = "between i by (1 to 10) {\n" +
+                "    print i;\n" +
+                "}"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def token = lexer.expectToken(Ident.class, foundToken -> "Expected identifier got ${foundToken}".toString())
+
+        then: 'exception should be thrown'
+        def ex = thrown(SyntaxErrorException)
+
+        ex.getMessage() == "Expected identifier got between"
+    }
+
+    def "should expect keyword correctly if the asked keyword is present"() {
+        given: 'between loop and lexer'
+        def loopCode = "between i by (1 to 10) {\n" +
+                "    print i;\n" +
+                "}"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def keyword = lexer.expectKeyword(Keyword.BETWEEN,
+                token -> "Expected between got ${token}")
+
+        then: 'tokens should be correctly expected'
+        keyword == Keyword.BETWEEN
+    }
+
+    def "should throw SyntaxErrorException if the expected keyword is not received"() {
+        given: 'between loop and lexer'
+        def loopCode = "to i by (1 to 10) {\n" +
+                "    print i;\n" +
+                "}"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def token = lexer.expectKeyword(Keyword.BETWEEN, foundToken -> "Expected between got ${foundToken}".toString())
+
+        then: 'exception should be thrown'
+        def ex = thrown(SyntaxErrorException)
+
+        ex.getMessage() == "Expected between got to"
+    }
+
+    def "should expect operator correctly if the asked operator is present"() {
+        given: 'a code'
+        def loopCode = "+"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def operator = lexer.expectOperator(Operator.PLUS,
+                token -> "Expected + got ${token}")
+
+        then: 'tokens should be correctly expected'
+        operator == Operator.PLUS
+    }
+
+    def "should throw SyntaxErrorException if the expected operator is not received"() {
+        given: 'a code'
+        def loopCode = "+"
+        def lexer = new Lexer(loopCode)
+
+        when: 'expecting valid token'
+        def operator = lexer.expectOperator(Operator.SEMICOLON,
+                token -> "Expected ; got ${token}".toString())
+
+        then: 'tokens should be correctly expected'
+        def ex = thrown(SyntaxErrorException)
+
+        ex.getMessage() == "Expected ; got +"
     }
 
 }

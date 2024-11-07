@@ -1,6 +1,9 @@
 package com.cemozden.funscript.lexer;
 
+import com.cemozden.funscript.ast.SyntaxErrorException;
+
 import java.util.*;
+import java.util.function.Function;
 
 public class Lexer {
 
@@ -30,6 +33,48 @@ public class Lexer {
         } else {
             return getOperatorToken();
         }
+    }
+
+    public <T extends Token> T expectToken(Class<T> tokenType, Function<Token, String> unexpectedTokenMessageSupplier) throws SyntaxErrorException {
+        final Optional<Token> nextToken = this.nextToken();
+
+        if (nextToken.isEmpty()) {
+            throw new SyntaxErrorException("No symbol found.");
+        }
+
+        final Token token = nextToken.get();
+
+        if (tokenType.isInstance(token)) {
+           return (T) token;
+        } else throw new SyntaxErrorException(unexpectedTokenMessageSupplier.apply(token));
+    }
+
+    public Keyword expectKeyword(Keyword expectedKeyword, Function<Token, String> unexpectedKeywordSupplier) throws SyntaxErrorException {
+        final Optional<Token> nextToken = this.nextToken();
+
+        if (nextToken.isEmpty()) {
+            throw new SyntaxErrorException("No symbol found.");
+        }
+
+        final Token token = nextToken.get();
+
+        if (expectedKeyword.getClass().isInstance(token) && token == expectedKeyword)
+            return expectedKeyword;
+        else throw new SyntaxErrorException(unexpectedKeywordSupplier.apply(token));
+    }
+
+    public Operator expectOperator(Operator expectedOperator, Function<Token, String> unexpectedOperatorSupplier) throws SyntaxErrorException {
+        final Optional<Token> nextToken = this.nextToken();
+
+        if (nextToken.isEmpty()) {
+            throw new SyntaxErrorException("No symbol found.");
+        }
+
+        final Token token = nextToken.get();
+
+        if (expectedOperator.getClass().isInstance(token) && token == expectedOperator)
+            return expectedOperator;
+        else throw new SyntaxErrorException(unexpectedOperatorSupplier.apply(token));
     }
 
     private Optional<Token> getIdentToken() {
