@@ -77,6 +77,22 @@ public class Lexer {
         else throw new SyntaxErrorException(unexpectedOperatorSupplier.apply(token));
     }
 
+    public Operator expectOperator(Function<Token, String> unexpectedTokenSupplier) throws SyntaxErrorException {
+        final Optional<Token> maybeToken = this.nextToken();
+
+        if (maybeToken.isEmpty()) {
+            throw new SyntaxErrorException("No symbol found.");
+        }
+
+        final Token token = maybeToken.get();
+
+
+        if (token instanceof Operator)
+            return (Operator) token;
+        else
+            throw new SyntaxErrorException(unexpectedTokenSupplier.apply(token));
+    }
+
     private Optional<Token> getIdentToken() {
         final int startOffset = offset;
 
@@ -176,15 +192,20 @@ public class Lexer {
 
     private static final Set<Character> SINGLE_CHAR_OPERATORS = Set.of('+', '-', '*', '/', ';', '=', ':', '{', '}', '(', ')');
 
-    private static final Map<String, Operator> OPERATORS = Map.of(
-            "=", Operator.EQUAL,
-            ";", Operator.SEMICOLON,
-            ":", Operator.COLON,
-            "+", Operator.PLUS,
-            "{", Operator.OPEN_CURLY_BRACKET,
-            "}", Operator.CLOSED_CURLY_BRACKET,
-            "(", Operator.OPEN_PARENTHESES,
-            ")", Operator.CLOSED_PARENTHESES
-    );
+    private static final Map<String, Operator> OPERATORS = new HashMap<>();
+
+    static {
+        OPERATORS.put(";", Operator.SEMICOLON);
+        OPERATORS.put(":", Operator.COLON);
+        OPERATORS.put("+", Operator.PLUS);
+        OPERATORS.put("-", Operator.MINUS);
+        OPERATORS.put("*", Operator.STAR);
+        OPERATORS.put("/", Operator.SLASH);
+        OPERATORS.put("{", Operator.OPEN_CURLY_BRACKET);
+        OPERATORS.put("}", Operator.CLOSED_CURLY_BRACKET);
+        OPERATORS.put("(", Operator.OPEN_PARENTHESES);
+        OPERATORS.put(")", Operator.CLOSED_PARENTHESES);
+        OPERATORS.put("=", Operator.EQUAL);
+    }
 
 }

@@ -1,4 +1,4 @@
 package com.cemozden.funscript.ast;
 
-public sealed interface Statement extends TokenTree permits BetweenLoop, Variable, Block {
+public sealed interface Statement extends TokenTree permits AtomicNode, BetweenLoop, Block, Operation, Variable {
 }

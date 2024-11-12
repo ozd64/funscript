@@ -2,5 +2,11 @@ package com.cemozden.funscript.ast;
 
 import com.cemozden.funscript.lexer.Operator;
 
-public record Expression(TokenTree lhs, Operator operator, TokenTree rhs) implements TokenTree {
+import java.util.Optional;
+
+public sealed interface Expression<T> extends TokenTree permits AtomicNode, Operation {
+    <L> Optional<Expression<L>> lhs();
+    Optional<Operator> operator();
+    <R> Optional<Expression<R>> rhs();
+    T get();
 }

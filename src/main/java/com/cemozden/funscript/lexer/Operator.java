@@ -8,7 +8,7 @@ public enum Operator implements Token {
     CLOSED_CURLY_BRACKET,
     OPEN_PARENTHESES,
     CLOSED_PARENTHESES,
-    SEMICOLON;
+    SEMICOLON, MINUS, STAR, SLASH;
 
     @Override
     public String toString() {
@@ -16,6 +16,9 @@ public enum Operator implements Token {
             case EQUAL -> "=";
             case COLON -> ":";
             case PLUS -> "+";
+            case MINUS -> "-";
+            case STAR -> "*";
+            case SLASH -> "/";
             case OPEN_CURLY_BRACKET -> "{";
             case CLOSED_CURLY_BRACKET -> "}";
             case OPEN_PARENTHESES -> "(";
